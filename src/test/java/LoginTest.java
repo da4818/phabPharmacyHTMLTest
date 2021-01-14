@@ -22,7 +22,7 @@ public class LoginTest {
         WebDriver driver = new HtmlUnitDriver();
         driver.get("https://phabpharmacy.herokuapp.com/login");
         //Will need to be logged in prior to this test
-        WebElement email = driver.findElement(By.name("email")); // Inout field where user enters their email address
+        WebElement email = driver.findElement(By.name("email")); // Input field where user enters their email address
         email.sendKeys("js@hotmail.com");
         WebElement password = driver.findElement(By.name("pass"));
         password.sendKeys("qwerty");
@@ -38,6 +38,7 @@ public class LoginTest {
         logOutButtons.get(i).click();
         WebElement output = driver.findElement(By.className("currentUser"));
         Assert.assertEquals(output.getText(),""); // Should output nothing as no one is logged in
+        driver.quit();
     }
     @Test
     public void checkLogin()throws Exception{
@@ -69,7 +70,7 @@ public class LoginTest {
         WebDriver driver = new HtmlUnitDriver();
         driver.get("https://phabpharmacy.herokuapp.com/login");
         // Entering the login details for John Smith
-        WebElement email = driver.findElement(By.name("email")); // Inout field where user enters their email address
+        WebElement email = driver.findElement(By.name("email")); // Input field where user enters their email address
         email.sendKeys("js@hotmail.com");
         WebElement password = driver.findElement(By.name("pass"));
         password.sendKeys("qwerty");
@@ -83,7 +84,7 @@ public class LoginTest {
         WebDriver driver = new HtmlUnitDriver();
         driver.get("https://phabpharmacy.herokuapp.com/login");
         // Entering the login details for John Smith
-        WebElement email = driver.findElement(By.name("email")); // Inout field where user enters their email address
+        WebElement email = driver.findElement(By.name("email")); // Input field where user enters their email address
         email.sendKeys("w-jones12@googlemail.co.uk");
         WebElement password = driver.findElement(By.name("pass"));
         password.sendKeys("eXample567");
@@ -97,7 +98,7 @@ public class LoginTest {
         WebDriver driver = new HtmlUnitDriver();
         driver.get("https://phabpharmacy.herokuapp.com/login");
         // Entering the login details for John Smith
-        WebElement email = driver.findElement(By.name("email")); // Inout field where user enters their email address
+        WebElement email = driver.findElement(By.name("email")); // Input field where user enters their email address
         email.sendKeys("cwy@gmail.com");
         WebElement password = driver.findElement(By.name("pass"));
         password.sendKeys("password1");
@@ -111,7 +112,7 @@ public class LoginTest {
         WebDriver driver = new HtmlUnitDriver();
         driver.get("https://phabpharmacy.herokuapp.com/login");
         // Entering the login details for John Smith
-        WebElement email = driver.findElement(By.name("email")); // Inout field where user enters their email address
+        WebElement email = driver.findElement(By.name("email")); // Input field where user enters their email address
         email.sendKeys("tpke@gmail.com");
         WebElement password = driver.findElement(By.name("pass"));
         password.sendKeys("wasd&&");
