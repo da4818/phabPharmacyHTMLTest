@@ -18,6 +18,31 @@ public class LoginTest {
     }
     //Check login of currently registered customers
     @Test
+    public void checkLogin()throws Exception{
+        WebDriver driver = new HtmlUnitDriver();
+        driver.get("https://phabpharmacy.herokuapp.com/login");
+        //WebElement email = driver.findElement(By.name("email"));
+        WebElement password = driver.findElement(By.name("pass"));
+        password.submit();
+        WebElement resp = driver.findElement(By.name("loginResponse"));
+        Assert.assertEquals(resp.getText(),"Incomplete fields, please enter all the information.");
+        driver.quit();
+    }
+    @Test //Erroring
+    public void checkLogin1()throws Exception{
+        WebDriver driver = new HtmlUnitDriver();
+        driver.get("https://phabpharmacy.herokuapp.com/login");
+        WebElement email = driver.findElement(By.name("email"));
+        email.sendKeys("test@gmail.com");
+        WebElement password = driver.findElement(By.name("pass"));
+        password.sendKeys("password1");
+        password.submit();
+        WebElement resp = driver.findElement(By.name("loginResponse"));
+        Assert.assertEquals(resp.getText(),"Wrong email or password, please try again.");
+        driver.quit();
+    }
+
+    @Test
     public void checkLoginJohn() throws Exception{
         WebDriver driver = new HtmlUnitDriver();
         driver.get("https://phabpharmacy.herokuapp.com/login");
@@ -91,6 +116,9 @@ public class LoginTest {
         WebDriver driver = new HtmlUnitDriver();
         //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); // Not needed for this test
         driver.get("https://phabpharmacy.herokuapp.com/login");
+        //Back to Browse page - having some issues as Browse isn't a hyperlink like the others but a button that calls a function
+        driver.findElement(By.name("Browse")).click();
+        //Assert.assertEquals(driver.getTitle(),"Browse");
         //Back to Homepage
         driver.findElement(By.linkText("Home")).click();
         Assert.assertEquals(driver.getTitle(),"Home");
@@ -100,10 +128,6 @@ public class LoginTest {
         //Back to Map page
         driver.findElement(By.linkText("In-Store")).click();
         Assert.assertEquals(driver.getTitle(),"Find Items In-Store");
-        //Back to Browse page - having some issues as Browse isn't a hyperlink like the others but a button that calls a function
-        driver.findElement(By.name("Browse")).click();
-        //Assert.assertEquals(driver.findElement(By.name("Browse")).getText(),"Browse");
-        Assert.assertEquals(driver.getTitle(),"Browse");
         //Back to Basket page
         driver.findElement(By.name("Basket")).click();
         Assert.assertEquals(driver.getTitle(),"Basket");
