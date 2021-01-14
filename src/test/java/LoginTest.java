@@ -137,15 +137,16 @@ public class LoginTest {
     @Test
     public void navigatePages(){
         WebDriver driver = new HtmlUnitDriver();
+        ((HtmlUnitDriver) driver).setJavascriptEnabled(true);
         //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); // Not needed for this test
         driver.get("https://phabpharmacy.herokuapp.com/login");
         //Back to Browse page - having some issues as Browse isn't a hyperlink like the others but a button that calls a function
-        driver.findElements(By.name("Browse"));
-        //Assert.assertEquals(driver.getTitle(),"Browse");
 
         // Browse subpages - you must hover over the dropdown box before the element become visible to click on it
         Actions a = new Actions(driver);
         WebElement browse = driver.findElement(By.name("Browse"));
+        a.moveToElement(browse).click().perform();
+        Assert.assertEquals(driver.getTitle(),"Browse");
         WebElement dropDown = driver.findElement(By.className("dropdown-content"));
         List<WebElement> dropDownElements = dropDown.findElements(By.xpath(".//*"));
 
@@ -153,8 +154,7 @@ public class LoginTest {
             a.moveToElement(browse).build().perform();
             a.moveToElement(dropDownElements.get(i)).click().perform();
             System.out.println((i+1)+":"+driver.getCurrentUrl());
-        }
-
+        } // This isn't a test, but displays it to the console --> will implement assertion shortly
         //Back to Homepage
         driver.findElement(By.linkText("Home")).click();
         Assert.assertEquals(driver.getTitle(),"Home");
