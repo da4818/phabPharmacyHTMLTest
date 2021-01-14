@@ -33,7 +33,7 @@ public class HomeTest {
         WebDriver driver = new HtmlUnitDriver();
         //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); // Not needed for this test
         driver.get("https://phabpharmacy.herokuapp.com/home");
-        //Back to Homepage
+        //Back to Login page
         driver.findElement(By.linkText("Login")).click();
         Assert.assertEquals(driver.getTitle(),"Login");
         //Back to Register page
