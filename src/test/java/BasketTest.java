@@ -24,7 +24,6 @@ public class BasketTest {
         List<WebElement> updateResponses = driver.findElements(By.name("update"));
         System.out.println(updateResponses.get(0).getAttribute("value")+" and " +updateResponses.get(1).getAttribute("value"));
         updateResponses.get(0).click();
-
         /*WebElement quantity = driver.findElement(By.name("basketItemQuantity"));
         quantity.sendKeys("2");
         WebElement update = driver.findElement(By.name("update"));

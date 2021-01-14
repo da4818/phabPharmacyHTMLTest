@@ -5,11 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.interactions.Actions;
-
-import javax.swing.*;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-//import org.testng.annotations.Test;
+
 
 public class LoginTest {
     @Test
@@ -20,6 +17,28 @@ public class LoginTest {
         driver.quit();
     }
     //Check login of currently registered customers
+    @Test
+    public void logOut() throws Exception{
+        WebDriver driver = new HtmlUnitDriver();
+        driver.get("https://phabpharmacy.herokuapp.com/login");
+        //Will need to be logged in prior to this test
+        WebElement email = driver.findElement(By.name("email")); // Inout field where user enters their email address
+        email.sendKeys("js@hotmail.com");
+        WebElement password = driver.findElement(By.name("pass"));
+        password.sendKeys("qwerty");
+        password.submit();
+        //Begin testing log out
+        List<WebElement> logOutButtons = driver.findElements(By.name("logOut")); // There are 2 buttons with the same name -
+        int i = 0; // one with the purpose to log out, and another to prevent a nullPointException in the POST method, in the event the log out button is not pressed
+        for (i=0;i<logOutButtons.size();i++){
+            if (logOutButtons.get(i).getAttribute("value").equals("Log Out")){
+                break;
+            }
+        }
+        logOutButtons.get(i).click();
+        WebElement output = driver.findElement(By.className("currentUser"));
+        Assert.assertEquals(output.getText(),""); // Should output nothing as no one is logged in
+    }
     @Test
     public void checkLogin()throws Exception{
         WebDriver driver = new HtmlUnitDriver();
@@ -134,6 +153,7 @@ public class LoginTest {
             a.moveToElement(dropDownElements.get(i)).click().perform();
             System.out.println((i+1)+":"+driver.getCurrentUrl());
         }
+
         //Back to Homepage
         driver.findElement(By.linkText("Home")).click();
         Assert.assertEquals(driver.getTitle(),"Home");
