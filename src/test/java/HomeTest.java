@@ -18,14 +18,7 @@ public class HomeTest {
         driver.get("https://phabpharmacy.herokuapp.com/home");
         String target = driver.findElement(By.xpath("//h2")).getText();
         Assert.assertTrue(target.contains("Welcome to the PhabPharmacy's home page!"));
-        driver.quit();
-    }
-    @Test
-    public void displayDescription2() throws Exception{
-        WebDriver driver = new HtmlUnitDriver();
-        driver.get("https://phabpharmacy.herokuapp.com/home");
-        String target2 = driver.findElement(By.xpath("//h2")).getText();
-        Assert.assertTrue(target2.contains("Please login or register to create an account."));
+        Assert.assertTrue(target.contains("Please login or register to create an account."));
         driver.quit();
     }
     @Test
