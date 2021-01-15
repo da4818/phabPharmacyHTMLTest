@@ -16,11 +16,12 @@ public class OrderTest {
         driver.findElement(By.name("editBasket")).click();
         Assert.assertEquals(driver.getTitle(),"Basket");
     }
+    @Test
     public void checkEditDetailsButton()throws Exception{
         WebDriver driver = new HtmlUnitDriver();
         ((HtmlUnitDriver) driver).setJavascriptEnabled(true);
         driver.get("https://phabpharmacy.herokuapp.com/order");
         driver.findElement(By.name("editDetails")).click();
-        Assert.assertEquals(driver.getTitle(),"Basket");
+        Assert.assertEquals(driver.getTitle(),"Amend Details");
     }
 }

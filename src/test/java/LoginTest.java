@@ -27,9 +27,9 @@ public class LoginTest {
         WebElement password = driver.findElement(By.name("pass"));
         password.sendKeys("qwerty");
         password.submit();
-        //Begin testing log out
+        // Begin testing log out
         List<WebElement> logOutButtons = driver.findElements(By.name("logOut")); // There are 2 buttons with the same name -
-        int i = 0; // one with the purpose to log out, and another to prevent a nullPointException in the POST method, in the event the log out button is not pressed
+        int i = 0; // One with the purpose to log out, and another to prevent a nullPointException in the POST method, in the event the log out button is not pressed
         for (i=0;i<logOutButtons.size();i++){
             if (logOutButtons.get(i).getAttribute("value").equals("Log Out")){
                 break;
@@ -37,6 +37,7 @@ public class LoginTest {
         }
         logOutButtons.get(i).click();
         WebElement output = driver.findElement(By.className("currentUser"));
+        Assert.assertEquals(driver.getTitle(),"Home"); // Should redirect back to the homepage
         Assert.assertEquals(output.getText(),""); // Should output nothing as no one is logged in
         driver.quit();
     }
@@ -140,24 +141,22 @@ public class LoginTest {
         ((HtmlUnitDriver) driver).setJavascriptEnabled(true);
         //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); // Not needed for this test
         driver.get("https://phabpharmacy.herokuapp.com/login");
-        //Back to Browse page - having some issues as Browse isn't a hyperlink like the others but a button that calls a function
-
-        // Browse subpages - you must hover over the dropdown box before the element become visible to click on it
+        //Back to Homepage
+        driver.findElement(By.linkText("Home")).click();
+        Assert.assertEquals(driver.getTitle(),"Home");
+        //Back to Browse page
         Actions a = new Actions(driver);
         WebElement browse = driver.findElement(By.name("Browse"));
         a.moveToElement(browse).click().perform();
         Assert.assertEquals(driver.getTitle(),"Browse");
+        // Browse subpages - you must hover over the dropdown box before the element become visible to click on it
         WebElement dropDown = driver.findElement(By.className("dropdown-content"));
         List<WebElement> dropDownElements = dropDown.findElements(By.xpath(".//*"));
-
         for (int i=0;i<dropDownElements.size();i++){
             a.moveToElement(browse).build().perform();
             a.moveToElement(dropDownElements.get(i)).click().perform();
             System.out.println((i+1)+":"+driver.getCurrentUrl());
         } // This isn't a test, but displays it to the console --> will implement assertion shortly
-        //Back to Homepage
-        driver.findElement(By.linkText("Home")).click();
-        Assert.assertEquals(driver.getTitle(),"Home");
         //Back to Register page
         driver.findElement(By.linkText("Register")).click();
         Assert.assertEquals(driver.getTitle(),"Register");
