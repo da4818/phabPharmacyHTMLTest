@@ -41,9 +41,46 @@ public class BrowseTest {
         Assert.assertEquals(output.getText(),""); // Should output nothing as no one is logged in
         driver.quit();
     }
+    /*@Test
+    public void checkAddToBasket()throws Exception{
+        WebDriver driver = new HtmlUnitDriver();
+        ((HtmlUnitDriver) driver).setJavascriptEnabled(true);
+        //Will need to be logged in prior to this test
+        driver.get("https://phabpharmacy.herokuapp.com/login");
+        WebElement email = driver.findElement(By.name("email")); // Input field where user enters their email address
+        email.sendKeys("js@hotmail.com");
+        WebElement password = driver.findElement(By.name("pass"));
+        password.sendKeys("qwerty");
+        password.submit();
+        // Note this test doesn't take into account if the item added already exists in the basket - the quantity is updated, rather than added
+        //As a workaround, we initially add the item to the basket, then remove it before adding it again
+        driver.get("https://phabpharmacy.herokuapp.com/browse");
+        String oldVal = driver.findElement(By.id("basket")).getText();
+        int oldBasketSize = Integer.parseInt(oldVal);
+        List<WebElement> quantities = driver.findElements(By.name("basketQuantity"));
+        List<WebElement> selectButtons = driver.findElements(By.name("addToBasket"));
+        String x = "3";
+        quantities.get(0).sendKeys(x); // Add x of the first item in browse
+        selectButtons.get(0).submit();
+
+        driver.get("https://phabpharmacy.herokuapp.com/basket");
+        List<WebElement> updateResponses = driver.findElements(By.name("update"));
+        int finalTrashButton = updateResponses.size()-1;
+        updateResponses.get(finalTrashButton).click();
+
+        driver.get("https://phabpharmacy.herokuapp.com/browse");
+        oldVal = driver.findElement(By.id("basket")).getText();
+        oldBasketSize = Integer.parseInt(oldVal);
+        x = "3";
+        quantities.get(0).sendKeys(x); // Add x of the first item in browse
+        selectButtons.get(0).submit();
+
+        int newBasketSize = Integer.parseInt(driver.findElement(By.id("basket")).getText());
+        Assert.assertEquals(newBasketSize,oldBasketSize + Integer.parseInt(x));
+        driver.quit();
+    }*/
 
     @Test
-
     public void checkLoggedIn()throws Exception{
         WebDriver driver = new HtmlUnitDriver();
         ((HtmlUnitDriver) driver).setJavascriptEnabled(true);
@@ -57,18 +94,12 @@ public class BrowseTest {
                 break;
             }
         }
-
         List<WebElement> quantityButtons = driver.findElements(By.name("basketQuantity"));
         quantityButtons.get(0).sendKeys("2");
         List<WebElement> submitButtons = driver.findElements(By.name("addToBasket"));
         submitButtons.get(0).submit();
         Alert alertMessage = driver.switchTo().alert();
         Assert.assertEquals(alertMessage.getText(),"Please ensure that you have created an account and logged in before adding items to your basket.");
-
-        // Switching to Alert
-        // Capturing alert message.
-
-        //Assert.assertTrue(alertMessage.contains("Please ensure that you have created an account and logged in before adding items to your basket."));
         driver.quit();
     }
 

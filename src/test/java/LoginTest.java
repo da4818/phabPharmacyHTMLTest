@@ -150,14 +150,6 @@ public class LoginTest {
         WebElement browse = driver.findElement(By.name("Browse"));
         a.moveToElement(browse).click().perform();
         Assert.assertEquals(driver.getTitle(),"Browse");
-        // Browse subpages - you must hover over the dropdown box before the element become visible to click on it
-        WebElement dropDown = driver.findElement(By.className("dropdown-content"));
-        List<WebElement> dropDownElements = dropDown.findElements(By.xpath(".//*"));
-        for (int i=0;i<dropDownElements.size();i++){
-            a.moveToElement(browse).build().perform();
-            a.moveToElement(dropDownElements.get(i)).click().perform();
-            System.out.println((i+1)+":"+driver.getCurrentUrl());
-        } // This isn't a test, but displays it to the console --> will implement assertion shortly
         //Back to Register page
         driver.findElement(By.linkText("Register")).click();
         Assert.assertEquals(driver.getTitle(),"Register");
@@ -168,6 +160,41 @@ public class LoginTest {
         driver.findElement(By.name("Basket")).click();
         Assert.assertEquals(driver.getTitle(),"Basket");
         // Order, AmendDetails pages aren't accessible through Login - only from Basket
+        driver.quit();
+    }
+    @Test
+    public void navigateBrowsePages(){
+        WebDriver driver = new HtmlUnitDriver();
+        driver.get("https://phabpharmacy.herokuapp.com/login");
+        // Browse subpages - you must hover over the dropdown box before the element become visible to click on it
+        WebElement browse = driver.findElement(By.name("Browse"));
+        WebElement dropDown = driver.findElement(By.className("dropdown-content"));
+        List<WebElement> dropDownElements = dropDown.findElements(By.xpath(".//*"));
+
+        Actions a = new Actions(driver);
+        a.moveToElement(browse).build().perform();
+        a.moveToElement(dropDownElements.get(0)).click().perform();
+        Assert.assertEquals(driver.getCurrentUrl(),"https://phabpharmacy.herokuapp.com/browse#cold_and_flu");
+
+        a.moveToElement(browse).build().perform();
+        a.moveToElement(dropDownElements.get(1)).click().perform();
+        Assert.assertEquals(driver.getCurrentUrl(),"https://phabpharmacy.herokuapp.com/browse#skincare");
+
+        a.moveToElement(browse).build().perform();
+        a.moveToElement(dropDownElements.get(2)).click().perform();
+        Assert.assertEquals(driver.getCurrentUrl(),"https://phabpharmacy.herokuapp.com/browse#headaches_and_pain_relief");
+
+        a.moveToElement(browse).build().perform();
+        a.moveToElement(dropDownElements.get(3)).click().perform();
+        Assert.assertEquals(driver.getCurrentUrl(),"https://phabpharmacy.herokuapp.com/browse#digestion");
+
+        a.moveToElement(browse).build().perform();
+        a.moveToElement(dropDownElements.get(4)).click().perform();
+        Assert.assertEquals(driver.getCurrentUrl(),"https://phabpharmacy.herokuapp.com/browse#allergy");
+
+        a.moveToElement(browse).build().perform();
+        a.moveToElement(dropDownElements.get(5)).click().perform();
+        Assert.assertEquals(driver.getCurrentUrl(),"https://phabpharmacy.herokuapp.com/browse#first_aid");
         driver.quit();
     }
 }

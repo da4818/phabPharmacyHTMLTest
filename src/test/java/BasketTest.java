@@ -18,8 +18,8 @@ public class BasketTest {
     @Test
     public void logOut() throws Exception{
         WebDriver driver = new HtmlUnitDriver();
-        driver.get("https://phabpharmacy.herokuapp.com/login");
         //Will need to be logged in prior to this test
+        driver.get("https://phabpharmacy.herokuapp.com/login");
         WebElement email = driver.findElement(By.name("email")); // Input field where user enters their email address
         email.sendKeys("js@hotmail.com");
         WebElement password = driver.findElement(By.name("pass"));
@@ -41,21 +41,30 @@ public class BasketTest {
         driver.quit();
     }
     @Test
-    public void checkBasket(){
+    public void checkBasket(){ // Check that the basket header icon displays the correct number of items as is displayed in the page body
         WebDriver driver = new HtmlUnitDriver();
+        // Will need to be logged in prior to this test
+        driver.get("https://phabpharmacy.herokuapp.com/login");
+        WebElement email = driver.findElement(By.name("email")); // Input field where user enters their email address
+        email.sendKeys("js@hotmail.com");
+        WebElement password = driver.findElement(By.name("pass"));
+        password.sendKeys("qwerty");
+        password.submit();
+        // Once logged in we can check their basket
         driver.get("https://phabpharmacy.herokuapp.com/basket");
-        WebElement quantity = driver.findElement(By.name("basketItemQuantity"));
-        System.out.println(quantity.getAttribute("value"));
+
+        List<WebElement> quantities = driver.findElements(By.name("basketItemQuantity"));
+        int expectedBasketSize=0;
+        for (int i=0;i<quantities.size();i++){
+            expectedBasketSize+= Integer.parseInt(quantities.get(i).getAttribute("value"));
+        }
         List<WebElement> updateResponses = driver.findElements(By.name("update"));
-        System.out.println(updateResponses.get(0).getAttribute("value")+" and " +updateResponses.get(1).getAttribute("value"));
         updateResponses.get(0).click();
-        /*WebElement quantity = driver.findElement(By.name("basketItemQuantity"));
-        quantity.sendKeys("2");
-        WebElement update = driver.findElement(By.name("update"));
-        update.click();
-        String output = driver.findElement(By.name("basketItemQuantity")).getText();
-        System.out.println(output);*/
+        WebElement basketSize = driver.findElement(By.id("basket"));
+        Assert.assertEquals(expectedBasketSize,Integer.parseInt(basketSize.getText()));
+        // Checks that the user is redirected to the confirm order page
         driver.findElement(By.linkText("Proceed to Checkout")).click();
         Assert.assertEquals(driver.getTitle(),"Confirm Order");
+        driver.quit();
     }
 }
