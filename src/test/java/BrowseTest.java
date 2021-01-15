@@ -27,35 +27,49 @@ public class BrowseTest {
         password.sendKeys("qwerty");
         password.submit();
         // Begin testing log out
+        driver.get("https://phabpharmacy.herokuapp.com/browse");
         List<WebElement> logOutButtons = driver.findElements(By.name("logOut")); // There are 2 buttons with the same name -
         int i = 0; // One with the purpose to log out, and another to prevent a nullPointException in the POST method, in the event the log out button is not pressed
         for (i=0;i<logOutButtons.size();i++){
             if (logOutButtons.get(i).getAttribute("value").equals("Log Out")){
+                logOutButtons.get(i).click();
                 break;
             }
         }
-        logOutButtons.get(i).click();
         WebElement output = driver.findElement(By.className("currentUser"));
         Assert.assertEquals(driver.getTitle(),"Home"); // Should redirect back to the homepage
         Assert.assertEquals(output.getText(),""); // Should output nothing as no one is logged in
         driver.quit();
     }
+
     @Test
-    public void checkLoggedIn()throws Exception{ // Test this immediately after the logOut test
-        //We want to ensure that no one can add items to their basket if they are not logged in
+
+    public void checkLoggedIn()throws Exception{
         WebDriver driver = new HtmlUnitDriver();
+        ((HtmlUnitDriver) driver).setJavascriptEnabled(true);
         driver.get("https://phabpharmacy.herokuapp.com/browse");
-        //WebElement quantity = driver.findElement(By.name("basketQuantity"));
-        WebElement quantity = driver.findElement(By.name("basketQuantity"));
-        quantity.sendKeys("2");
-        WebElement submit = driver.findElement(By.name("addToBasket"));
-        submit.getAttribute("value");
-        submit.submit();
+        //We want to ensure that no one can add items to their basket if they are not logged in
+        List<WebElement> logOutButtons = driver.findElements(By.name("logOut")); // There are 2 buttons with the same name -
+        int i = 0; // One with the purpose to log out, and another to prevent a nullPointException in the POST method, in the event the log out button is not pressed
+        for (i=0;i<logOutButtons.size();i++){
+            if (logOutButtons.get(i).getAttribute("value").equals("Log Out")){
+                logOutButtons.get(i).click();
+                break;
+            }
+        }
+
+        List<WebElement> quantityButtons = driver.findElements(By.name("basketQuantity"));
+        quantityButtons.get(0).sendKeys("2");
+        List<WebElement> submitButtons = driver.findElements(By.name("addToBasket"));
+        submitButtons.get(0).submit();
+        Alert alertMessage = driver.switchTo().alert();
+        Assert.assertEquals(alertMessage.getText(),"Please ensure that you have created an account and logged in before adding items to your basket.");
+
         // Switching to Alert
-        Alert alert = driver.switchTo().alert();
         // Capturing alert message.
-        String alertMessage= driver.switchTo().alert().getText();
-        Assert.assertTrue(alertMessage.contains("Please ensure that you have created an account and logged in before adding items to your basket."));
+
+        //Assert.assertTrue(alertMessage.contains("Please ensure that you have created an account and logged in before adding items to your basket."));
+        driver.quit();
     }
 
 }

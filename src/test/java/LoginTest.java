@@ -28,6 +28,7 @@ public class LoginTest {
         password.sendKeys("qwerty");
         password.submit();
         // Begin testing log out
+        driver.get("https://phabpharmacy.herokuapp.com/login"); //Necessary to refresh page
         List<WebElement> logOutButtons = driver.findElements(By.name("logOut")); // There are 2 buttons with the same name -
         int i = 0; // One with the purpose to log out, and another to prevent a nullPointException in the POST method, in the event the log out button is not pressed
         for (i=0;i<logOutButtons.size();i++){

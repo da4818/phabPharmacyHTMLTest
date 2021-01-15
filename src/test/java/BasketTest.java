@@ -26,14 +26,15 @@ public class BasketTest {
         password.sendKeys("qwerty");
         password.submit();
         // Begin testing log out
+        driver.get("https://phabpharmacy.herokuapp.com/basket");
         List<WebElement> logOutButtons = driver.findElements(By.name("logOut")); // There are 2 buttons with the same name -
         int i = 0; // One with the purpose to log out, and another to prevent a nullPointException in the POST method, in the event the log out button is not pressed
         for (i=0;i<logOutButtons.size();i++){
             if (logOutButtons.get(i).getAttribute("value").equals("Log Out")){
+                logOutButtons.get(i).click();
                 break;
             }
         }
-        logOutButtons.get(i).click();
         WebElement output = driver.findElement(By.className("currentUser"));
         Assert.assertEquals(driver.getTitle(),"Home"); // Should redirect back to the homepage
         Assert.assertEquals(output.getText(),""); // Should output nothing as no one is logged in
