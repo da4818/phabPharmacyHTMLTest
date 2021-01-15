@@ -2,7 +2,9 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.interactions.Actions;
 
 public class HomeTest {
     @Test
@@ -18,7 +20,14 @@ public class HomeTest {
         driver.get("https://phabpharmacy.herokuapp.com/home");
         String target = driver.findElement(By.xpath("//h2")).getText();
         Assert.assertTrue(target.contains("Welcome to the PhabPharmacy's home page!"));
-        Assert.assertTrue(target.contains("Please login or register to create an account."));
+        driver.quit();
+    }
+    @Test
+    public void displayDescription2() throws Exception{
+        WebDriver driver = new HtmlUnitDriver();
+        driver.get("https://phabpharmacy.herokuapp.com/home");
+        String target2 = driver.findElement(By.xpath("//h2")).getText();
+        Assert.assertTrue(target2.contains("Please login or register to create an account."));
         driver.quit();
     }
     @Test
