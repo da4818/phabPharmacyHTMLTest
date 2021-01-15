@@ -26,6 +26,11 @@ public class HomeTest {
         WebDriver driver = new HtmlUnitDriver();
         //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); // Not needed for this test
         driver.get("https://phabpharmacy.herokuapp.com/home");
+        //Back to Browse page 
+        Actions a = new Actions(driver);
+        WebElement browse = driver.findElement(By.name("Browse"));
+        a.moveToElement(browse).click().perform();
+        Assert.assertEquals(driver.getTitle(),"Browse");
         //Back to Login page
         driver.findElement(By.linkText("Login")).click();
         Assert.assertEquals(driver.getTitle(),"Login");
@@ -35,10 +40,6 @@ public class HomeTest {
         //Back to Map page
         driver.findElement(By.linkText("In-Store")).click();
         Assert.assertEquals(driver.getTitle(),"Find Items In-Store");
-        //Back to Browse page - having some issues as Browse isn't a hyperlink like the others but a button that calls a function
-        driver.findElement(By.name("Browse")).click();
-        //Assert.assertEquals(driver.findElement(By.name("Browse")).getText(),"Browse");
-        Assert.assertEquals(driver.getTitle(),"Browse");
         //Back to Basket page
         driver.findElement(By.name("Basket")).click();
         Assert.assertEquals(driver.getTitle(),"Basket");
